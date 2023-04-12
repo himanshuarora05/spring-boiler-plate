@@ -1,0 +1,31 @@
+<configuration debug="true" scan="true" scanPeriod="30 seconds">
+
+    <timestamp key="bySecond" datePattern="yyyy-MM-dd:HH-mm-ss.SSS"/>
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <append>true</append>
+        <file>/etc/.files/logs/company-backend.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/etc/.files/logs/archive/company-backend.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%date %X{x_request_id} %X{x_span_id} %level [%thread] [%file:%line] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%date %X{x_request_id} %X{x_span_id} %level [%thread] [%file:%line] %msg%n</pattern>
+            <outputPatternAsHeader>true</outputPatternAsHeader>
+        </encoder>
+    </appender>
+
+    <logger name="com.company">
+        <level value="ALL" />
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </root>
+</configuration>
